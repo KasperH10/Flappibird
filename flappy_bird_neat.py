@@ -135,7 +135,7 @@ class Pipe():
     represents a pipe object
     """
     
-    GAP = 200
+    GAP = 160
     "16: verander de afstand tussen de pipes van boven naar beneden van 200 naar 160"
     VEL = 5
 
