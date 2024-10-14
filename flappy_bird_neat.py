@@ -415,8 +415,10 @@ def eval_genomes(genomes, config):
 
         # break if score gets large enough
         if score > 25:
+            run == False 
             pickle.dump(nets[0],open("best.pickle", "wb"))
             break
+            load pickle.dump(nets[0],open("best.pickle", "wb"))
         "Stap????????: Als de score van 25 wordt bereikt, start het spelletje opnieuw, maar door de pickle command zal alleen het beste vogeltje opnieuws spelen"
 
 def run(config_file):
