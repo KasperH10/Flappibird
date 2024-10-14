@@ -134,8 +134,9 @@ class Pipe():
     """
     represents a pipe object
     """
-    # GAP veranderd van 200 naar 160
+    
     GAP = 200
+    "16: verander de afstand tussen de pipes van boven naar beneden van 200 naar 160"
     VEL = 5
 
     def __init__(self, x):
@@ -327,7 +328,7 @@ def eval_genomes(genomes, config):
     "En met ge kan je de genomes in de gaten houden en bv. hun fitness aanpassen"
     for genome_id, genome in genomes:
         genome.fitness = 0
-        "7: hier starten de genomes met een fitness leven van 0"
+        "7: hier starten de genomes met een fitness level van 0"
         net = neat.nn.FeedForwardNetwork.create(genome, config)
         "6: hier wordt een neural netwerk gemaakt voor de genomes"
         nets.append(net)
@@ -342,7 +343,8 @@ def eval_genomes(genomes, config):
 
     run = True
     while run and len(birds) > 0:
-        clock.tick(60)
+        clock.tick(100)
+        "14: veradner de clock.tick van 60 naar 100. Clock.tick zorgt ervoor hoe vaak het scherm herlaad per seconde"
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -353,18 +355,21 @@ def eval_genomes(genomes, config):
 
         pipe_ind = 0
         if len(birds) > 0:
-            if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  # determine whether to use the first or second
-                pipe_ind = 1                                                                 # pipe on the screen for neural network input
+            if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  
+                pipe_ind = 1
+                "12: Als vogels pijp 0, de eerste pijp op het scherm, hebben gehaald, kijken we naar de volgende pijp in de lijst, pijp1"
 
-        for x, bird in enumerate(birds):  # give each bird a fitness of 0.1 for each frame it stays alive
+        for x, bird in enumerate(birds): 
             ge[x].fitness += 0.1
             bird.move()
+            "13: als de vogel vooruit beweegt, krjgt hij er 0.1 fitness bij voor elke frame dat hij levend blift. Het is express zo weinig omdat het scherm 100 frames per seconde herlaad."
 
             # send bird location, top pipe location and bottom pipe location and determine from network whether to jump or not
             output = nets[birds.index(bird)].activate((bird.y, abs(bird.y - pipes[pipe_ind].height), abs(bird.y - pipes[pipe_ind].bottom)))
 
             if output[0] > 0.5:  # we use a tanh activation function so result will be between -1 and 1. if over 0.5 jump
                 bird.jump()
+                "15: als de vogel activatiefunctie groter is dan 0.5, moet de vogel springen"
 
         base.move()
 
@@ -394,6 +399,7 @@ def eval_genomes(genomes, config):
         if add_pipe:
             score += 1
             
+            
             # can add this line to give more reward for passing through a pipe (not required)
             for genome in ge:
                 genome.fitness += 5
@@ -413,13 +419,13 @@ def eval_genomes(genomes, config):
 
         draw_window(WIN, birds, pipes, base, score, gen, pipe_ind)
 
-        # break if score gets large enough
-        if score > 25:
-            run == False 
+        if score == 5:
+            pygame.quit()
             pickle.dump(nets[0],open("best.pickle", "wb"))
             break
-            load pickle.dump(nets[0],open("best.pickle", "wb"))
-        "Stap????????: Als de score van 25 wordt bereikt, start het spelletje opnieuw, maar door de pickle command zal alleen het beste vogeltje opnieuws spelen"
+        "16: als de vogel een score van 25 heeft gehaald, start het spelletje opnieuw"
+                
+
 
 def run(config_file):
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
