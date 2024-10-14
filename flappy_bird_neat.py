@@ -393,8 +393,6 @@ def eval_genomes(genomes, config):
 
         if add_pipe:
             score += 1
-            #if score == 25: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-               #run = False!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
             # can add this line to give more reward for passing through a pipe (not required)
             for genome in ge:
@@ -416,10 +414,10 @@ def eval_genomes(genomes, config):
         draw_window(WIN, birds, pipes, base, score, gen, pipe_ind)
 
         # break if score gets large enough
-        '''if score > 20:
+        if score > 25:
             pickle.dump(nets[0],open("best.pickle", "wb"))
-            break'''
-
+            break
+        "Stap????????: Als de score van 25 wordt bereikt, start het spelletje opnieuw, maar door de pickle command zal alleen het beste vogeltje opnieuws spelen"
 
 def run(config_file):
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
