@@ -419,7 +419,7 @@ def eval_genomes(genomes, config):
 
         draw_window(WIN, birds, pipes, base, score, gen, pipe_ind)
 
-        if score == 5:
+        if score == 25:
             pygame.quit()
             pickle.dump(nets[0],open("best.pickle", "wb"))
             break
